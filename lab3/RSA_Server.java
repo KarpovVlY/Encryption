@@ -14,6 +14,11 @@ public class RSA_Server
     {
         this.clients = new ArrayList<>();
         this.serverKeys = RSA_CreateKey.generateRSAKeys();
+
+        System.out.println("Server started");
+        System.out.println("Server generated : \n\t publicKey = " + serverKeys[0].getFirstKeyPart() + "  ;  " + serverKeys[0].getSecondKeyPart() +
+                "\n\t privateKey = " + serverKeys[1].getFirstKeyPart() + "  ;  " + serverKeys[1].getSecondKeyPart() + '\n');
+
     }
 
     public void redirectMessage(String firstUsername, String secondUsername, String message) throws Exception
@@ -57,17 +62,29 @@ public class RSA_Server
         if(clients[0] == null || clients[1] == null)
             throw new Exception("Error, some of user doesn't exists");
         else
+        {
+            System.out.println("Server received creating chat process : \n\tfirstUsername = " + firstUser +
+                    "\n\tsecondUsername = " + secondUser + "\nSecret chat was successfully created");
+
             createSecretChat(clients, firstUser, secondUser);
+
+        }
     }
 
 
     private void createSecretChat(RSA_Client[] clients, String firstUser, String secondUser) throws Exception
     {
+
         RSA_Key firstPublicKey = clients[0].processCreatingSecretChat(secondUser);
         RSA_Key secondPublicKey = clients[1].processCreatingSecretChat(firstUser);
 
+        System.out.println("Server redirected secret chat public key from '" + firstUser + "' to '" + secondUser + "'");
+        System.out.println("Server redirected secret chat public key from '" + secondUser + "' to '" + firstUser + "'");
+
         clients[0].processSecretChatConfirmation(secondUser, secondPublicKey);
         clients[1].processSecretChatConfirmation(firstUser, firstPublicKey);
+
+
     }
 
     public RSA_Key sendPublicKey() { return this.serverKeys[0]; }
@@ -87,7 +104,14 @@ public class RSA_Server
 
         if(currentPerson != null)
         {
-            if(currentPerson.password.compareTo(RSA.decrypt(data, this.serverKeys[1])) != 0)
+            if(currentPerson.password.compareTo(RSA.decrypt(data, this.serverKeys[1])) == 0)
+            {
+                System.out.println("Server received login process : \n\tusername = " + username +
+                        "\n\tpassword = " + data + "\n\tdecrypted password = " + currentPerson.password +
+                        "\n\treceived password is identical to password in database" +
+                        "\n\tclient logined successfully\n");
+            }
+            else
                 throw new Exception("Error, password doesn't match");
         }
         else
@@ -128,7 +152,13 @@ public class RSA_Server
             }
 
         if(currentPerson != null)
+        {
+
             currentPerson.setPassword(RSA.decrypt(data, this.serverKeys[1]));
+            System.out.println("Server received registration process : \n\tusername = " + username +
+                    "\n\tpassword = " + data + "\n\tdecrypted password = " + currentPerson.password +
+                    "\n\tclient registrated successfully\n");
+        }
         else
             throw new Exception("Error ,user doesn't exists");
     }

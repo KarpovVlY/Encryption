@@ -15,24 +15,32 @@ public class RSA
             RSA_Client secondClient = new RSA_Client(server, "userSecond", "MyPa_00ss");
             RSA_Client thirdClient = new RSA_Client(server, "us3e4r5", "par_098");
 
+            System.out.println();
 
             firstClient.receiveOpenedKey();
+            secondClient.receiveOpenedKey();
+            thirdClient.receiveOpenedKey();
+
+            System.out.println();
+
             firstClient.sendRegistrationFirstStep();
             firstClient.sendRegistrationSecondStep();
-            firstClient.sendLogin();
 
-            secondClient.receiveOpenedKey();
             secondClient.sendRegistrationFirstStep();
             secondClient.sendRegistrationSecondStep();
-            secondClient.sendLogin();
 
-            thirdClient.receiveOpenedKey();
             thirdClient.sendRegistrationFirstStep();
             thirdClient.sendRegistrationSecondStep();
+
+
+            firstClient.sendLogin();
             thirdClient.sendLogin();
+            secondClient.sendLogin();
+
 
             firstClient.createSecretChat("userSecond");
             thirdClient.createSecretChat("user1");
+
 
             firstClient.sendMessage("Hello", "userSecond");
             firstClient.sendMessage("How are you", "userSecond");

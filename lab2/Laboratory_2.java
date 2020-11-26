@@ -4,8 +4,8 @@ public class Laboratory_2
 {
     public Laboratory_2()
     {
-        int firstKey = (int) (20 + Math.random() * 150);
-        int secondKey = (int) (20 + Math.random() * 150);
+        int firstKey = (int) (20 + Math.random() * 100);
+        int secondKey = (int) (20 + Math.random() * 100);
 
         System.out.println("Generated public numbers : " + firstKey + " and " + secondKey + '\n');
 

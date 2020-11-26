@@ -31,7 +31,6 @@ class Caesar_Table
     public void printTable()
     {
 
-
         System.out.println("+-------+-------+-----------+");
 
         for(int i = 0 ; i < rows.size() ; i ++)
