@@ -13,7 +13,6 @@ public class Caesar
     Caesar()
     {
         generateStep();
-        step = 91;
 
         String output = encrypt(readFile());
         writeFile(output);
